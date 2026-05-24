@@ -340,6 +340,7 @@ header {
   transition: transform 0.38s cubic-bezier(0.34,1.3,0.64,1);
   max-height: 93vh;
   overflow-y: auto;
+  position: relative;
 }
 .modal-overlay.open .modal { transform: translateY(0); }
 .modal-handle {
@@ -348,6 +349,24 @@ header {
   border-radius: 2px;
   margin: 14px auto 1.25rem;
 }
+.modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  z-index: 10;
+  flex-shrink: 0;
+}
+.modal-close-btn:active { transform: scale(0.92); }
 .modal-img-wrap {
   width: 100%;
   border-radius: 12px;
@@ -841,7 +860,7 @@ footer {
 
 <footer>
   <div class="footer-logo">LucaDigital</div>
-  <div class="footer-sub">Produtos digitais</div>
+  <div class="footer-sub">Produtos digitais · Entrega imediata</div>
   <div class="footer-link">Dúvidas? <a href="#" onclick="contactWhats(event)">Fale comigo no WhatsApp</a></div>
 </footer>
 
@@ -849,6 +868,7 @@ footer {
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal" id="modal">
     <div class="modal-handle"></div>
+    <button class="modal-close-btn" onclick="document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow=''">✕</button>
     <div id="modal-img-area"></div>
     <h2 id="modal-title">Produto</h2>
     <p class="modal-desc-text" id="modal-desc"></p>
@@ -865,14 +885,14 @@ footer {
     <div class="pix-section" id="modal-pix">
       <h4>Pagamento via Pix</h4>
       <div id="qr-container">
-        <canvas id="qr-canvas" width="160" height="160"></canvas>
+        <img id="qr-img" width="160" height="160" style="border-radius:8px;display:block;" alt="QR Code Pix">
       </div>
       <p class="pix-key-text">Chave: <strong id="pix-key-display">lucapiovezan4@gmail.com</strong></p>
       <button class="copy-pix-btn" onclick="copyPix()">📋 Copiar chave Pix</button>
     </div>
 
     <button class="btn-confirm" id="modal-btn-confirm" onclick="confirmPurchase()">✓ Já paguei · Enviar comprovante</button>
-    <button class="btn-whats" onclick="openWhats()"> Falar com Luca antes de comprar</button>
+    <button class="btn-whats" onclick="openWhats()">💬 Falar com Luca antes de comprar</button>
   </div>
 </div>
 
@@ -880,6 +900,7 @@ footer {
 <div class="modal-overlay" id="modal-servico-overlay" onclick="closeModalServico(event)">
   <div class="modal" id="modal-servico">
     <div class="modal-handle"></div>
+    <button class="modal-close-btn" onclick="document.getElementById('modal-servico-overlay').classList.remove('open');document.body.style.overflow=''">✕</button>
     <div class="modal-img-wrap">
       <img class="modal-img" id="modal-servico-img" src="" alt="">
     </div>
@@ -922,16 +943,16 @@ const products = [
   // id 1
   {
     img: 'pack_instagram.jpg',
-    title: 'Pack Posts prontos para Instagram',
-    desc: 'Mais de 20 templates editáveis no Canva para posts, stories e reels. Estética profissional em minutos.',
+    title: 'Pack Post pronto para Instagram',
+    desc: 'Mais de 50 templates editáveis no Canva para posts, stories e reels. Estética profissional em minutos.',
     price: 'R$14,90', priceOld: 'R$40,00',
-    includes: ['20+ templates editáveis no Canva','10 paletas de cores incluídas','Acesso vitalício'],
+    includes: ['50+ templates editáveis no Canva','10 paletas de cores incluídas','Manual de uso','Acesso vitalício + atualizações'],
   },
   // id 2
   {
     img: 'ebook_sono.jpg',
     title: 'Sono Profundo: Protocolo',
-    desc: 'eBook que te ensina técnicas e dicas para dormir melhor',
+    desc: 'Protocolo científico de 21 dias para melhorar a qualidade do sono, ter mais energia e ânimo no dia a dia.',
     price: 'R$6,90', priceOld: 'R$18,00',
     includes: ['Técnicas de respiração','Suporte por WhatsApp'],
   },
@@ -1108,16 +1129,18 @@ function closeModalServico(e) {
 let currentPixPayload = null;
 
 function generateQR(price, fixedPayload) {
-  const canvas = document.getElementById('qr-canvas');
-  canvas.getContext('2d').clearRect(0,0,160,160);
   const payload = fixedPayload || buildPix(PIX_KEY, parseFloat(price.replace('R$','').replace(',','.')).toFixed(2), NOME_LOJA);
   currentPixPayload = payload;
-  const div = document.createElement('div');
-  new QRCode(div, { text: payload, width: 160, height: 160, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.M });
-  setTimeout(() => {
-    const src = div.querySelector('img') || div.querySelector('canvas');
-    if (src) { const t = document.createElement('canvas'); t.width=160; t.height=160; t.getContext('2d').drawImage(src,0,0,160,160); canvas.getContext('2d').drawImage(t,0,0); }
-  }, 120);
+  const container = document.getElementById('qr-container');
+  container.innerHTML = '';
+  new QRCode(container, {
+    text: payload,
+    width: 160,
+    height: 160,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
 }
 
 function buildPix(key, amount, name) {
