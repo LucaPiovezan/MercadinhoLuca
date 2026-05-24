@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luca Digital · Produtos Digitais</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="image.png">
+<style>
+:root {
+  --bg: #f9fafb;
+  --white: #ffffff;
+  --green: #1a9e5c;
+  --green-light: #e8f7ef;
+  --green-mid: #c3ecd6;
+  --green-dark: #127a45;
+  --red: #e02424;
+  --red-light: #fef2f2;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+  --shadow-hover: 0 4px 20px rgba(26,158,92,0.18), 0 2px 8px rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--green);
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--text); font-weight: 600; }
+.badge-online {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--green);
+  background: var(--green-light);
+  padding: 5px 11px;
+  border-radius: 20px;
+  border: 1px solid var(--green-mid);
+}
+.badge-online::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: blink 2s ease infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.hero {
+  background: var(--white);
+  padding: 2rem 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border);
+  animation: fadeIn 0.5s ease both;
+}
+.hero-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.hero-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-light);
+  border: 1px solid var(--green-mid);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 6vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+.hero h1 span { color: var(--green); }
+.hero p {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+.filter-bar {
+  background: var(--white);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border);
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.pill {
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.pill:hover { border-color: var(--green); color: var(--green); }
+.pill.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.grid-section { padding: 1.25rem 1.25rem 3rem; }
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: var(--shadow);
+  animation: cardIn 0.45s ease both;
+  position: relative;
+}
+.card:active { transform: scale(0.97); }
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(26,158,92,0.22), 0 4px 12px rgba(0,0,0,0.1);
+    border-color: var(--green);
+  }
+  .card:hover .card-img { transform: scale(1.06); }
+  .card:hover .btn-buy {
+    background: var(--green-dark);
+    transform: scale(1.18);
+    box-shadow: 0 4px 14px rgba(26,158,92,0.55);
+  }
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card:nth-child(1){animation-delay:.05s}
+.card:nth-child(2){animation-delay:.10s}
+.card:nth-child(3){animation-delay:.15s}
+.card:nth-child(4){animation-delay:.20s}
+.card:nth-child(5){animation-delay:.25s}
+.card:nth-child(6){animation-delay:.30s}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  background: var(--bg);
+  transition: transform 0.35s ease;
+}
+.card-img-wrap {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.card-tag {
+  position: absolute;
+  top: 8px; left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+.card-tag.top { background: var(--green); color: #fff; }
+.card-tag.novo { background: #f59e0b; color: #fff; }
+.card-tag.pack { background: #6366f1; color: #fff; }
+.card-tag.estudo { background: #7c3aed; color: #fff; }
+.card-tag.servico { background: #ea580c; color: #fff; }
+.card-tag.infantil { background: #ec4899; color: #fff; }
+.card-tag.ia { background: #0ea5e9; color: #fff; }
+
+.card-body { padding: 10px 11px 12px; }
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.card-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-bottom: 9px;
+}
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.prices { display: flex; align-items: baseline; gap: 5px; }
+.price {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 17px;
+  color: var(--green);
+}
+.price-old {
+  font-size: 11px;
+  color: var(--red);
+  text-decoration: line-through;
+}
+.btn-buy {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--green);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(26,158,92,0.35);
+}
+.btn-buy:hover { background: var(--green-dark); transform: scale(1.1); }
+.btn-buy:active { transform: scale(0.9); }
+
+.btn-contratar-card {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #ea580c;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: 0 2px 8px rgba(234,88,12,0.3);
+  flex-shrink: 0;
+}
+.btn-contratar-card:hover { background: #c2410c; transform: scale(1.05); }
+.btn-contratar-card:active { transform: scale(0.95); }
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(26,158,92,0.18);
+  transform: scale(0);
+  animation: ripple-anim 0.55s linear;
+  pointer-events: none;
+}
+@keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--white);
+  border-radius: 22px 22px 0 0;
+  width: 100%;
+  max-width: 480px;
+  padding: 0 1.25rem 2rem;
+  transform: translateY(100%);
+  transition: transform 0.38s cubic-bezier(0.34,1.3,0.64,1);
+  max-height: 93vh;
+  overflow-y: auto;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-handle {
+  width: 38px; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 14px auto 1.25rem;
+}
+.modal-img-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background: var(--bg);
+}
+.modal-img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+
+.modal h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+.modal-desc-text {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.modal-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.modal-price {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 2.1rem;
+  color: var(--green);
+}
+.modal-price-old {
+  font-size: 14px;
+  color: var(--red);
+  text-decoration: line-through;
+}
+.modal-section {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.modal-section h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.includes-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.includes-list li {
+  font-size: 13px;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.includes-list li::before {
+  content: '✓';
+  color: var(--green);
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pix-section {
+  background: var(--green-light);
+  border: 1px solid var(--green-mid);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.pix-section h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+}
+#qr-container {
+  display: inline-block;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.pix-key-text {
+  font-size: 12px;
+  color: var(--green-dark);
+  margin-bottom: 0.6rem;
+}
+.pix-key-text strong {
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+}
+.copy-pix-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-dark);
+  background: var(--white);
+  border: 1px solid var(--green-mid);
+  border-radius: 20px;
+  padding: 7px 18px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.copy-pix-btn:hover { background: var(--green-mid); }
+.copy-pix-btn:active { transform: scale(0.96); }
+
+.btn-confirm {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  background: var(--green);
+  border: none;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: 0 4px 16px rgba(26,158,92,0.35);
+  margin-bottom: 0.65rem;
+}
+.btn-confirm:hover { background: var(--green-dark); box-shadow: 0 4px 20px rgba(26,158,92,0.5); }
+.btn-confirm:active { transform: scale(0.98); }
+
+.btn-whats {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  background: var(--white);
+  border: 1.5px solid #22c55e;
+  color: #16a34a;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.btn-whats:hover { background: #f0fdf4; }
+.btn-whats:active { transform: scale(0.98); }
+
+.servico-modal-banner {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 13px;
+  color: #7c2d12;
+  line-height: 1.5;
+}
+.servico-modal-banner strong { font-weight: 600; }
+
+.btn-contratar-modal {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  background: #ea580c;
+  border: none;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: 0 4px 16px rgba(234,88,12,0.35);
+  margin-bottom: 0.65rem;
+}
+.btn-contratar-modal:hover { background: #c2410c; }
+.btn-contratar-modal:active { transform: scale(0.98); }
+
+footer {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 2rem 1.25rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--green);
+  margin-bottom: 0.3rem;
+}
+.footer-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.footer-link {
+  font-size: 13px;
+  color: var(--muted);
+}
+.footer-link a { color: var(--green); text-decoration: none; font-weight: 500; }
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 9999;
+  transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1024px) {
+  .hero { padding: 3rem 2rem 2.5rem; }
+  .grid-section { padding: 1.5rem 2rem 3rem; }
+  .filter-bar { padding: 0.75rem 2rem; }
+  .grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .modal-overlay { align-items: center; }
+  .modal { border-radius: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Luca<span>Digital</span></div>
+  <div class="badge-online">Disponível agora</div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Produtos digitais</div>
+    <h1>Olá, me chamo<br><span>Luca</span> 👋</h1>
+    <h1>Explore meu mercadinho</h1>
+    <p>eBooks, guias, materiais de estudo e serviços de design — tudo num só lugar. Preços acessíveis, entrega rápida. Qualquer dúvida é só me chamar, respondo pessoalmente.</p>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <button class="pill active" onclick="filterCards('todos',this)">Todos</button>
+  <button class="pill" onclick="filterCards('ebook',this)">eBooks</button>
+  <button class="pill" onclick="filterCards('pack',this)">Packs</button>
+  <button class="pill" onclick="filterCards('estudar',this)">Estudar</button>
+  <button class="pill" onclick="filterCards('servico',this)">Serviços</button>
+</div>
+
+<section class="grid-section">
+  <div class="section-label">Produtos disponíveis</div>
+  <div class="grid" id="product-grid">
+
+    <!-- NOVO EBOOK IA — PRIMEIRO -->
+    <div class="card" data-cat="ebook" data-id="8" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_ia_emprego.jpg" alt="A IA vai pegar seu emprego?" loading="lazy"></div>
+      <span class="card-tag novo">Novo</span>
+      <div class="card-body">
+        <div class="card-title">A IA vai pegar seu emprego?</div>
+        <div class="card-desc">O que fazer antes que seja tarde</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$4,90</span>
+            <span class="price-old">R$20,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="ebook" data-id="0" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_mentalidade.jpg" alt="Mentalidade" loading="lazy"></div>
+      <span class="card-tag novo">Novo</span>
+      <div class="card-body">
+        <div class="card-title">Mentalidade de Alta Performance</div>
+        <div class="card-desc">Produtividade e foco máximo</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$7,90</span>
+            <span class="price-old">R$22,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="pack" data-id="1" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="pack_instagram.jpg" alt="Pack Instagram" loading="lazy"></div>
+      <span class="card-tag pack">Pack</span>
+      <div class="card-body">
+        <div class="card-title">Pack Post pronto para Instagram</div>
+        <div class="card-desc">Templates prontos para usar</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$14,90</span>
+            <span class="price-old">R$40,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="ebook" data-id="2" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_sono.jpg" alt="Sono" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-title">Sono Profundo: Protocolo</div>
+        <div class="card-desc">Durma melhor a partir de hoje</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$6,90</span>
+            <span class="price-old">R$18,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EBOOK INFANTIL -->
+    <div class="card" data-cat="ebook" data-id="7" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_contos_infantis.jpg" alt="Contos Infantis" loading="lazy"></div>
+      <span class="card-tag infantil">Infantil</span>
+      <div class="card-body">
+        <div class="card-title">Contos Infantis para Dormir</div>
+        <div class="card-desc">Histórias que acalmam e encantam</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$7,90</span>
+            <span class="price-old">R$20,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTUDAR -->
+    <div class="card" data-cat="estudar" data-id="3" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_getulio.jpg" alt="Getúlio Vargas" loading="lazy"></div>
+      <span class="card-tag estudo">Estudo</span>
+      <div class="card-body">
+        <div class="card-title">Getúlio Vargas — Do Tenentismo ao Estado Novo</div>
+        <div class="card-desc">Tudo que cai em prova</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$8,90</span>
+            <span class="price-old">R$24,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="estudar" data-id="4" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_napoleao.jpg" alt="Napoleão" loading="lazy"></div>
+      <span class="card-tag estudo">Estudo</span>
+      <div class="card-body">
+        <div class="card-title">Napoleão Bonaparte — Revolução e Poder</div>
+        <div class="card-desc">Europa, guerras e legado</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$8,90</span>
+            <span class="price-old">R$24,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="estudar" data-id="5" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_mlk.jpg" alt="Martin Luther King" loading="lazy"></div>
+      <span class="card-tag estudo">Estudo</span>
+      <div class="card-body">
+        <div class="card-title">Martin Luther King — Direitos Civis nos EUA</div>
+        <div class="card-desc">Movimento, discursos e impacto</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$7,90</span>
+            <span class="price-old">R$22,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="estudar" data-id="6" onclick="openModal(this)">
+      <div class="card-img-wrap"><img class="card-img" src="ebook_marx.jpg" alt="Karl Marx" loading="lazy"></div>
+      <span class="card-tag estudo">Estudo</span>
+      <div class="card-body">
+        <div class="card-title">Karl Marx — Marxismo Explicado</div>
+        <div class="card-desc">Filosofia, economia e política</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$9,90</span>
+            <span class="price-old">R$28,00</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation();openModal(this.closest('.card'))">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVIÇOS -->
+    <div class="card" data-cat="servico" data-id="0" onclick="openModalServico(this)">
+      <div class="card-img-wrap"><img class="card-img" src="servico_slides_escola.jpg" alt="Slides Escolares" loading="lazy"></div>
+      <span class="card-tag servico">Serviço</span>
+      <div class="card-body">
+        <div class="card-title">Slides de Apresentação Escolar</div>
+        <div class="card-desc">Seminários, TCC e trabalhos</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$19,90</span>
+          </div>
+          <button class="btn-contratar-card" onclick="event.stopPropagation();contratarServico(0)">Contratar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="servico" data-id="1" onclick="openModalServico(this)">
+      <div class="card-img-wrap"><img class="card-img" src="servico_slides_prof.jpg" alt="Slides Profissionais" loading="lazy"></div>
+      <span class="card-tag servico">Serviço</span>
+      <div class="card-body">
+        <div class="card-title">Aqui farei seus Slides de Apresentação Profissional</div>
+        <div class="card-desc">Empresas, pitch e reuniões</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$34,90</span>
+          </div>
+          <button class="btn-contratar-card" onclick="event.stopPropagation();contratarServico(1)">Contratar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="servico" data-id="2" onclick="openModalServico(this)">
+      <div class="card-img-wrap"><img class="card-img" src="servico_posts.jpg" alt="Design Posts" loading="lazy"></div>
+      <span class="card-tag servico">Serviço</span>
+      <div class="card-body">
+        <div class="card-title">Design de Posts para Instagram</div>
+        <div class="card-desc">Feed, stories e carrosséis</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$24,90</span>
+          </div>
+          <button class="btn-contratar-card" onclick="event.stopPropagation();contratarServico(2)">Contratar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="servico" data-id="3" onclick="openModalServico(this)">
+      <div class="card-img-wrap"><img class="card-img" src="servico_curriculo.jpg" alt="Currículo" loading="lazy"></div>
+      <span class="card-tag servico">Serviço</span>
+      <div class="card-body">
+        <div class="card-title">Aqui Farei seu currículo Profissional com Design</div>
+        <div class="card-desc">PDF finalizado + editável no Canva</div>
+        <div class="card-bottom">
+          <div class="prices">
+            <span class="price">R$14,90</span>
+          </div>
+          <button class="btn-contratar-card" onclick="event.stopPropagation();contratarServico(3)">Contratar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">LucaDigital</div>
+  <div class="footer-sub">Produtos digitais</div>
+  <div class="footer-link">Dúvidas? <a href="#" onclick="contactWhats(event)">Fale comigo no WhatsApp</a></div>
+</footer>
+
+<!-- MODAL PRODUTO -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div id="modal-img-area"></div>
+    <h2 id="modal-title">Produto</h2>
+    <p class="modal-desc-text" id="modal-desc"></p>
+    <div class="modal-price-row">
+      <span class="modal-price" id="modal-price"></span>
+      <span class="modal-price-old" id="modal-price-old"></span>
+    </div>
+
+    <div class="modal-section">
+      <h4>O que está incluído</h4>
+      <ul class="includes-list" id="modal-includes"></ul>
+    </div>
+
+    <div class="pix-section" id="modal-pix">
+      <h4>Pagamento via Pix</h4>
+      <div id="qr-container">
+        <canvas id="qr-canvas" width="160" height="160"></canvas>
+      </div>
+      <p class="pix-key-text">Chave: <strong id="pix-key-display">lucapiovezan4@gmail.com</strong></p>
+      <button class="copy-pix-btn" onclick="copyPix()">📋 Copiar chave Pix</button>
+    </div>
+
+    <button class="btn-confirm" id="modal-btn-confirm" onclick="confirmPurchase()">✓ Já paguei · Enviar comprovante</button>
+    <button class="btn-whats" onclick="openWhats()"> Falar com Luca antes de comprar</button>
+  </div>
+</div>
+
+<!-- MODAL SERVIÇO -->
+<div class="modal-overlay" id="modal-servico-overlay" onclick="closeModalServico(event)">
+  <div class="modal" id="modal-servico">
+    <div class="modal-handle"></div>
+    <div class="modal-img-wrap">
+      <img class="modal-img" id="modal-servico-img" src="" alt="">
+    </div>
+    <h2 id="modal-servico-title"></h2>
+    <p class="modal-desc-text" id="modal-servico-desc"></p>
+    <div class="modal-price-row">
+      <span class="modal-price" id="modal-servico-price"></span>
+      <span class="modal-price-old" id="modal-servico-prazo" style="color:var(--muted);text-decoration:none;font-size:13px;"></span>
+    </div>
+    <div class="modal-section">
+      <h4>O que está incluído</h4>
+      <ul class="includes-list" id="modal-servico-includes"></ul>
+    </div>
+    <div class="servico-modal-banner">
+      <strong>Como funciona:</strong> me manda uma mensagem com os detalhes do que precisa e a gente combina tudo. Pagamento só após aprovação do briefing.
+    </div>
+    <button class="btn-contratar-modal" id="modal-servico-btn">💬 Quero contratar</button>
+    <button class="btn-whats" onclick="closeModalServico({target:document.getElementById('modal-servico-overlay')})">Fechar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const PIX_KEY = 'lucapiovezan4@gmail.com';
+const WHATS_NUMBER = '5531995181229';
+const NOME_LOJA = 'LucaDigital';
+
+const products = [
+  // id 0
+  {
+    img: 'ebook_mentalidade.jpg',
+    title: 'Mentalidade de Alta Performance',
+    desc: 'Técnicas comprovadas para eliminar a procrastinação, aumentar o foco e atingir seus objetivos mais rápido.',
+    price: 'R$7,90', priceOld: 'R$22,00',
+    includes: ['eBook em PDF','Acesso vitalício','Suporte por WhatsApp'],
+    pixPayload: '00020101021126850014br.gov.bcb.pix0124lucotapiovezan@gmail.com0235eBook mentalidade de Alta Performac52040000530398654047.905802BR5916LUCA P FIGUEREDO6013BELO HORIZONT62070503***6304E31B',
+  },
+  // id 1
+  {
+    img: 'pack_instagram.jpg',
+    title: 'Pack Posts prontos para Instagram',
+    desc: 'Mais de 20 templates editáveis no Canva para posts, stories e reels. Estética profissional em minutos.',
+    price: 'R$14,90', priceOld: 'R$40,00',
+    includes: ['20+ templates editáveis no Canva','10 paletas de cores incluídas','Acesso vitalício'],
+  },
+  // id 2
+  {
+    img: 'ebook_sono.jpg',
+    title: 'Sono Profundo: Protocolo',
+    desc: 'eBook que te ensina técnicas e dicas para dormir melhor',
+    price: 'R$6,90', priceOld: 'R$18,00',
+    includes: ['Técnicas de respiração','Suporte por WhatsApp'],
+  },
+  // id 3
+  {
+    img: 'ebook_getulio.jpg',
+    title: 'Getúlio Vargas — Do Tenentismo ao Estado Novo',
+    desc: 'eBook completo cobrindo desde a Revolução de 1930, Era Vargas e Estado Novo até 1954. Com mapas mentais e questões comentadas de vestibulares.',
+    price: 'R$8,90', priceOld: 'R$24,00',
+    includes: ['Mapa mental do período','10 questões de vestibular comentadas','Linha do tempo visual'],
+  },
+  // id 4
+  {
+    img: 'ebook_napoleao.jpg',
+    title: 'Napoleão Bonaparte — Revolução e Poder',
+    desc: 'Do Consulado ao exílio em Santa Helena, com o Código Napoleônico, as guerras europeias e o impacto no mundo moderno.',
+    price: 'R$8,90', priceOld: 'R$24,00',
+    includes: ['Resumo dos principais eventos','Questões de ENEM e vestibular','Cronologia comentada'],
+  },
+  // id 5
+  {
+    img: 'ebook_mlk.jpg',
+    title: 'Martin Luther King — Direitos Civis nos EUA',
+    desc: 'Contexto histórico, principais discursos, leis conquistadas e legado do movimento pelos direitos civis. Muito cobrado no ENEM.',
+    price: 'R$7,90', priceOld: 'R$22,00',
+    includes: ['Análise de discursos históricos','Conexão com temas ENEM','Questões comentadas'],
+  },
+  // id 6
+  {
+    img: 'ebook_marx.jpg',
+    title: 'Karl Marx — Marxismo Explicado',
+    desc: 'Filosofia marxista de forma acessível: materialismo histórico, luta de classes e mais-valia. Essencial para filosofia e sociologia.',
+    price: 'R$9,90', priceOld: 'R$28,00',
+    includes: ['Glossário de termos marxistas','Questões de filosofia comentadas','Comparativo com outras correntes'],
+  },
+  // id 7
+  {
+    img: 'ebook_contos_infantis.jpg',
+    title: 'Contos Infantis para Dormir',
+    desc: 'Uma coleção de histórias suaves e encantadoras para ajudar crianças a relaxar e dormir com um sorriso no rosto. Perfeito para a hora do soninho.',
+    price: 'R$7,90', priceOld: 'R$20,00',
+    includes: ['10 contos ilustrados em PDF','Linguagem simples e acolhedora','Ideal para crianças de 2 a 8 anos','Acesso vitalício'],
+  },
+  // id 8 — A IA vai pegar seu emprego?
+  {
+    img: 'ebook_ia_emprego.jpg',
+    title: 'A IA vai pegar seu emprego?',
+    desc: 'A inteligência artificial está mudando o mercado de trabalho em velocidade assustadora. Neste eBook você entende quais profissões estão em risco, quais habilidades têm mais futuro e o que você pode fazer agora para não ficar para trás.',
+    price: 'R$4,90', priceOld: 'R$20,00',
+    pixPayload: '00020101021126750014br.gov.bcb.pix0124lucotapiovezan@gmail.com0225IA pode pegar seu emprego52040000530398654044.905802BR5916LUCA P FIGUEREDO6013BELO HORIZONT62070503***63041281',
+    includes: [
+      'As profissões mais ameaçadas pela IA',
+      'As habilidades que as máquinas não conseguem substituir',
+      'Como usar a IA a seu favor no trabalho',
+      'Guia prático de ferramentas de IA para iniciantes',
+      'eBook em PDF · Acesso vitalício',
+    ],
+  },
+];
+
+const services = [
+  {
+    img: 'servico_slides_escola.jpg',
+    title: 'Slides de Apresentação Escolar',
+    desc: 'Criação completa dos slides: capa, índice, conteúdo e conclusão. Visual bonito, tema a sua escolha. Você só me manda o conteúdo.',
+    price: 'R$19,90', prazo: 'até 10 slides · entrega em 24h',
+    includes: ['Capa + índice + slides de conteúdo','Tema e cores à sua escolha','Arquivo editável no Canva','1 revisão inclusa'],
+    msg: 'Olá Luca! Quero contratar o serviço de slides escolares (R$19,90). Como funciona?'
+  },
+  {
+    img: 'servico_slides_prof.jpg',
+    title: 'Slides de Apresentação Profissional',
+    desc: 'Slides com visual corporativo e profissional. Ideal para apresentar projetos, relatórios ou proposta comercial. Personalizável com logo e cores.',
+    price: 'R$34,90', prazo: 'até 15 slides · entrega em 48h',
+    includes: ['Layout corporativo personalizado','Logo e cores da sua marca','Arquivo editável no Canva','2 revisões inclusas'],
+    msg: 'Olá Luca! Quero contratar o serviço de slides profissional (R$34,90). Como funciona?'
+  },
+  {
+    img: 'servico_posts.jpg',
+    title: 'Design de Posts para Instagram',
+    desc: 'Criação de posts, carrosséis ou stories com identidade visual. Você recebe os arquivos editáveis no Canva para replicar futuramente.',
+    price: 'R$24,90', prazo: '5 artes · entrega em 24h',
+    includes: ['5 posts/stories editáveis no Canva','Identidade visual consistente','Paleta de cores definida','1 revisão inclusa'],
+    msg: 'Olá Luca! Tenho interesse no serviço de design de posts para Instagram (R$24,90). Pode me explicar melhor?'
+  },
+  {
+    img: 'servico_curriculo.jpg',
+    title: 'Currículo Profissional com Design',
+    desc: 'Seu currículo com design moderno, profissional e que se destaca. Entrego em PDF finalizado + arquivo editável no Canva.',
+    price: 'R$14,90', prazo: 'entrega em 24h',
+    includes: ['Layout moderno e profissional','PDF finalizado para enviar','Arquivo editável no Canva','1 revisão inclusa'],
+    msg: 'Olá Luca! Quero contratar o serviço de currículo com design (R$14,90). Como faço?'
+  },
+];
+
+let currentId = 0;
+let currentServiceId = 0;
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    const rect = this.getBoundingClientRect();
+    const s = Math.max(rect.width, rect.height);
+    r.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px`;
+    this.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+  });
+});
+
+function filterCards(cat, btn) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    const show = cat === 'todos' || c.dataset.cat === cat;
+    c.style.display = show ? '' : 'none';
+    if (show) { c.style.animation = 'none'; c.offsetHeight; c.style.animation = 'cardIn 0.35s ease both'; }
+  });
+}
+
+function openModal(card) {
+  const id = parseInt(card.dataset.id);
+  currentId = id;
+  const p = products[id];
+
+  // Área da imagem igual para todos
+  const imgArea = document.getElementById('modal-img-area');
+  imgArea.innerHTML = `<div class="modal-img-wrap"><img class="modal-img" src="${p.img}" alt="${p.title}"></div>`;
+
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-desc').textContent = p.desc;
+  document.getElementById('modal-price').textContent = p.price;
+  document.getElementById('modal-price-old').textContent = p.priceOld;
+  const list = document.getElementById('modal-includes');
+  list.innerHTML = '';
+  p.includes.forEach(item => { const li = document.createElement('li'); li.textContent = item; list.appendChild(li); });
+  generateQR(p.price, p.pixPayload || null);
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function openModalServico(card) {
+  const id = parseInt(card.dataset.id);
+  currentServiceId = id;
+  const s = services[id];
+  document.getElementById('modal-servico-img').src = s.img;
+  document.getElementById('modal-servico-img').alt = s.title;
+  document.getElementById('modal-servico-title').textContent = s.title;
+  document.getElementById('modal-servico-desc').textContent = s.desc;
+  document.getElementById('modal-servico-price').textContent = s.price;
+  document.getElementById('modal-servico-prazo').textContent = s.prazo;
+  const list = document.getElementById('modal-servico-includes');
+  list.innerHTML = '';
+  s.includes.forEach(item => { const li = document.createElement('li'); li.textContent = item; list.appendChild(li); });
+  document.getElementById('modal-servico-btn').onclick = () => contratarServico(id);
+  document.getElementById('modal-servico-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModalServico(e) {
+  if (e.target === document.getElementById('modal-servico-overlay')) {
+    document.getElementById('modal-servico-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+let currentPixPayload = null;
+
+function generateQR(price, fixedPayload) {
+  const canvas = document.getElementById('qr-canvas');
+  canvas.getContext('2d').clearRect(0,0,160,160);
+  const payload = fixedPayload || buildPix(PIX_KEY, parseFloat(price.replace('R$','').replace(',','.')).toFixed(2), NOME_LOJA);
+  currentPixPayload = payload;
+  const div = document.createElement('div');
+  new QRCode(div, { text: payload, width: 160, height: 160, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.M });
+  setTimeout(() => {
+    const src = div.querySelector('img') || div.querySelector('canvas');
+    if (src) { const t = document.createElement('canvas'); t.width=160; t.height=160; t.getContext('2d').drawImage(src,0,0,160,160); canvas.getContext('2d').drawImage(t,0,0); }
+  }, 120);
+}
+
+function buildPix(key, amount, name) {
+  const f = (id, v) => id + v.length.toString().padStart(2,'0') + v;
+  const mai = f('26', f('00','BR.GOV.BCB.PIX') + f('01', key));
+  const n = name.substring(0,25).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  let p = f('00','01') + mai + f('52','0000') + f('53','986') + f('54', amount) + f('58','BR') + f('59', n) + f('60','SAO PAULO') + f('62', f('05','***'));
+  const crcData = p + '6304';
+  let c = 0xFFFF;
+  for (let i=0;i<crcData.length;i++) { c ^= crcData.charCodeAt(i)<<8; for(let j=0;j<8;j++) c=(c&0x8000)?((c<<1)^0x1021):(c<<1); }
+  return p + '6304' + (c&0xFFFF).toString(16).toUpperCase().padStart(4,'0');
+}
+
+function copyPix() {
+  const textToCopy = currentPixPayload || PIX_KEY;
+  navigator.clipboard.writeText(textToCopy).catch(()=>{});
+  showToast('✅ Código Pix copiado!');
+}
+
+function confirmPurchase() {
+  const p = products[currentId];
+  const msg = encodeURIComponent(`Olá Luca! Acabei de pagar ${p.price} pelo "${p.title}". Segue o comprovante!`);
+  window.open(`https://wa.me/${WHATS_NUMBER}?text=${msg}`, '_blank');
+}
+
+function openWhats() {
+  const p = products[currentId];
+  const msg = encodeURIComponent(`Olá Luca! Vi sua loja e tenho interesse em "${p.title}" (${p.price}). Pode me dar mais informações?`);
+  window.open(`https://wa.me/${WHATS_NUMBER}?text=${msg}`, '_blank');
+}
+
+function contratarServico(id) {
+  const s = services[id];
+  const msg = encodeURIComponent(s.msg);
+  window.open(`https://wa.me/${WHATS_NUMBER}?text=${msg}`, '_blank');
+}
+
+function contactWhats(e) {
+  e.preventDefault();
+  const msg = encodeURIComponent('Olá Luca! Vi sua loja digital e gostaria de tirar algumas dúvidas.');
+  window.open(`https://wa.me/${WHATS_NUMBER}?text=${msg}`, '_blank');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
